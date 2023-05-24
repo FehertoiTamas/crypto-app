@@ -1,0 +1,11 @@
+@import url('./basics/colors.css');
+
+.footer {
+  width: 100%;
+  min-height: 2.5rem;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary);
+}
