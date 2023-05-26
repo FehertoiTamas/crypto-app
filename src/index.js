@@ -6,6 +6,7 @@ import Layout from './pages/Layout';
 import Home from './pages/Home';
 import Cryptocurrencies from './pages/Cryptocurrencies';
 import About from './pages/About';
+import ShowCoin from './pages/ShowCoin';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,11 @@ const router = createBrowserRouter([
       {
         path: "/About",
         element: <About />,
-      }
+      },
+      {
+        path: "/SingleCoin/:id",
+        element: <ShowCoin />
+      },
     ]
   }
 ])

@@ -48,11 +48,19 @@ function InputField() {
           }}
         />
       </Box>
-      <Box display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" gap={10}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexWrap="wrap"
+        gap={10}
+      >
         {!query
           ? null
           : searchedCoinsData &&
-            searchedCoinsData.map((coin) => <Cards key={coin.id} coin={coin} />)}
+            searchedCoinsData.map((coin) => (
+              <Cards key={coin.id} coin={coin} />
+            ))}
       </Box>
     </>
   );

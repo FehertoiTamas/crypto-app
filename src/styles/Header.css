@@ -1,0 +1,22 @@
+.navbar-items {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-items::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  background-color: white;
+  transform-origin: center;
+  transition: transform 0.25s ease-out;
+}
+
+.navbar-items:hover::after {
+  transform: scaleX(1);
+  transform-origin: center;
+}

@@ -20,7 +20,7 @@ export default function Cards({ coin }) {
         <CardMedia
           component="img"
           height="194"
-          sx={{ objectFit: "contain" }}
+          sx={{ objectFit: "scale-down" }}
           image={coin.large}
           alt="coin"
         />
