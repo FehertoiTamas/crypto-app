@@ -1,39 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
 import LoadingAnimation from "../components/LoadingAnimation";
 import "../styles/ShowCoin.css";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Chart from "../components/Chart";
+import { Box, Paper, Typography } from "@mui/material";
 
 export default function ShowCoin() {
   const params = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [graphData, setGraphData] = useState();
-  const [period, setPeriod] = useState();
+  const [period, setPeriod] = useState(7);
+  const [marketDatas, setMarketDatas] = useState({});
 
   const url = `https://api.coingecko.com/api/v3/coins/${params.id}/market_chart?vs_currency=usd&days=${period}`;
+  const coinUrl = `https://api.coingecko.com/api/v3/coins/${params.id}?localization=false&market_data=true`;
 
-  const getSingleCoinData = async () => {
-    const response = await fetch(url).then((response) => response.json());
-    const formattedData = response.prices.map(([timestamp, price]) => ({
+  const fetchData = async () => {
+    const [coinData, marketData] = await Promise.all([
+      fetch(url).then((response) => response.json()),
+      fetch(coinUrl).then((response) => response.json()),
+    ]);
+
+    const formattedData = coinData.prices.map(([timestamp, price]) => ({
       Date: new Date(timestamp).toLocaleDateString("hu"),
       Price: price,
     }));
+
     setGraphData(formattedData);
+    setMarketDatas(marketData);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    getSingleCoinData();
-    setIsLoading(false);
+    fetchData();
   }, [params.id, period]);
 
   // Toggle bottoms
@@ -41,6 +42,7 @@ export default function ShowCoin() {
   const handleChange = (event, newAlignment) => {
     setPeriod(newAlignment);
   };
+  console.log(marketDatas)
 
   return (
     <>
@@ -48,6 +50,24 @@ export default function ShowCoin() {
         <LoadingAnimation />
       ) : (
         <div className="show-body">
+            <Paper sx={{ display: "block" }} variant="outlined">                    {/*itt tartok !!!!!!!!*/}
+              <img src={marketDatas.image.small} alt="symbol" />
+            </Paper>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography variant="h4">
+              {marketDatas.name} <span>({marketDatas.symbol})</span>
+            </Typography>
+            <Typography variant="h6">
+              <span>Current price : </span>{marketDatas.market_data.current_price.usd}
+            </Typography>
+            <Typography variant="subtitle1">
+              <span>24h high : </span>{marketDatas.market_data.high_24h.usd}
+            </Typography>
+            <Typography variant="subtitle1">
+              <span>24h low : </span>{marketDatas.market_data.low_24h.usd}
+            </Typography>
+          </Box>
+
           <ToggleButtonGroup
             color="primary"
             value={period}
@@ -60,30 +80,7 @@ export default function ShowCoin() {
             <ToggleButton value="7">Week</ToggleButton>
             <ToggleButton value="1">Day</ToggleButton>
           </ToggleButtonGroup>
-          <ResponsiveContainer width="50%" height="50%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={graphData}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="Date" />
-              <YAxis />
-              <Tooltip />
-              <Area
-                type="monotone"
-                dataKey="Price"
-                stroke="#8884d8"
-                fill="#8884d8"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+          <Chart graphData={graphData} />
         </div>
       )}
     </>

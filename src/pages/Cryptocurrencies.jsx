@@ -27,7 +27,13 @@ function Cryptocurrencies() {
       ) : (
         <>
           <InputField />
-          <Box display="flex" justifyContent="center" alignItems="center" flexWrap="wrap" gap={10}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexWrap="wrap"
+            gap={10}
+          >
             {topCoinsData.map((coin) => (
               <TopCoinsCard key={coin.item.coin_id} coin={coin} />
             ))}

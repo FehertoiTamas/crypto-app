@@ -25,7 +25,7 @@ export default function TopCoinsCard({ coin }) {
           >
             <CardMedia
               component="img"
-              height="194"
+              height="100"
               sx={{ objectFit: "contain" }}
               image={coin.item.large}
               alt="coin"
