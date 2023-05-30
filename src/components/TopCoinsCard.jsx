@@ -40,9 +40,6 @@ export default function TopCoinsCard({ coin }) {
             <Typography flexWrap="wrap" variant="h5" component="div">
               {coin.item.name}
             </Typography>
-            <Typography flexWrap="wrap" variant="h5" component="div">
-              {coin.item.price_btc}
-            </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
               Market Cap Rank : {coin.item.market_cap_rank}
             </Typography>
