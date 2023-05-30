@@ -58,7 +58,7 @@ export default function ShowCoin() {
               {marketDatas.name} <span>({marketDatas.symbol})</span>
             </Typography>
             <Typography variant="h6">
-              <span>Current price : </span>{marketDatas.market_data.current_price.usd}
+              <span>Current price : $ </span>{marketDatas.market_data.current_price.usd}
             </Typography>
             <Typography variant="subtitle1">
               <span>24h high : </span>{marketDatas.market_data.high_24h.usd}
